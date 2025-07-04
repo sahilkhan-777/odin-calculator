@@ -1,8 +1,9 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -11,8 +12,22 @@ body {
     justify-content: center;
     height: 100vh;
     background-color: #f0f0f0;
+    position: relative;
 }
-.container{
+
+body>button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #3a3a3a;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.container {
     max-width: 300px;
     width: 100%;
     background-color: #a200ff;
@@ -24,7 +39,8 @@ body {
     padding: 20px;
     border-radius: 10px;
 }
-#display{
+
+#display {
     max-width: 236px;
     width: 100%;
     background-color: #fff;
@@ -37,7 +53,8 @@ body {
     align-items: center;
     justify-content: flex-end;
 }
-.keys{
+
+.keys {
     max-width: 280px;
     width: 100%;
     display: grid;
@@ -45,6 +62,7 @@ body {
     padding: 10px;
     gap: 10px;
 }
+
 .keys button {
     width: 50px;
     height: 50px;
@@ -55,45 +73,137 @@ body {
     background-color: #fff;
     transition: background-color 0.3s ease;
 }
+
 .keys button:hover {
     background-color: #dcdcdc;
 }
+
 .keys button:active {
     background-color: #ccc;
 }
+
 .keys .operator-key {
     background-color: #ffd700;
 }
+
 .keys .operator-key:hover {
     background-color: #daa520;
 }
+
 .keys .operator-key:active {
     background-color: #b8860b;
 }
+
 .keys #clear-key {
     background-color: #ff91a3;
 }
+
 .keys #clear-key:hover {
     background-color: #f16c6c;
 }
+
 .keys #clear-key:active {
     background-color: #ff4c4c;
 }
+
 .keys #equals-key {
     background-color: #008080;
 }
+
 .keys #equals-key:hover {
     background-color: #0aafaf;
 }
+
 .keys #equals-key:active {
     background-color: #1b9b9b;
 }
+
 .keys #backspace-key {
     background-color: #ff66f2;
 }
+
 .keys #backspace-key:hover {
     background-color: #ff33e4;
 }
+
 .keys #backspace-key:active {
-    background-color: #c41fbb;  
+    background-color: #c41fbb;
+}
+
+.dark-mode {
+    background-color: #8d8d8d;
+    color: #fff;
+
+    .container {
+        background-color: #444;
+        border-color: #666;
+    }
+
+    #display {
+        background-color: #555;
+        color: #fff;
+        border-color: #666;
+    }
+
+    .keys button {
+        background-color: #666;
+        color: #fff;
+        border-color: #888;
+    }
+
+    .keys button:hover {
+        background-color: #777;
+    }
+
+    .keys button:active {
+        background-color: #888;
+    }
+
+    .keys .operator-key {
+        background-color: #ffb300;
+    }
+
+    .keys .operator-key:hover {
+        background-color: #ff9f00;
+    }
+
+    .keys .operator-key:active {
+        background-color: #ff8c00;
+    }
+
+    .keys #clear-key {
+        background-color: #ff6f61;
+    }
+
+    .keys #clear-key:hover {
+        background-color: #ff5c4f;
+    }
+
+    .keys #clear-key:active {
+        background-color: #ff4a3d;
+    }
+
+    .keys #equals-key {
+        background-color: #00bcd4;
+    }
+
+    .keys #equals-key:hover {
+        background-color: #00acc1;
+    }
+
+    .keys #equals-key:active {
+        background-color: #0097a7;
+    }
+
+    .keys #backspace-key {
+        background-color: #ff4081;
+    }
+
+    .keys #backspace-key:hover {
+        background-color: #ff2b6c;
+    }
+
+    .keys #backspace-key:active {
+        background-color: #ff1457;
+    }
 }
