@@ -4,7 +4,9 @@ const operatorKeys = document.querySelectorAll('.operator-key');
 const clearButton = document.querySelector('#clear-key');
 const equalsButton = document.querySelector('#equals-key');
 const backButton = document.querySelector('#backspace-key');
- 
+const decimalKey = document.querySelector('.decimal-key');
+const darkModeButton = document.querySelector('#dark-mode-btn');
+
 // function operate(operator, a, b) {
 //     switch (operator) {
 //         case '+':
@@ -48,16 +50,29 @@ const backButton = document.querySelector('#backspace-key');
 
 numberKeys.forEach(key => {
     key.addEventListener('click', () => {
-        display.textContent = display.textContent === '0' ? key.textContent : display.textContent + key.textContent;
-        if (display.textContent.length > 10) {
-            display.textContent = display.textContent.slice(0, 10);
+        display.value = display.value === '0' ? key.textContent : display.value + key.textContent;
+        if (display.value.length > 10) {
+            display.value = display.value.slice(0, 10);
         }
         console.log(key.textContent);
     });
 });
+decimalKey.addEventListener('click', () => {
+    const currentText = display.value.trim();
+    const tokens = currentText.split(/[\s\+\-\*\/\%\^]+/); // Split by operators
+    const lastNumber = tokens[tokens.length - 1];
+
+    const lastChar = currentText.slice(-1);
+    const isOperator = ['+', '-', '*', '/', '%', '^'].includes(lastChar);
+    if (isOperator) return;
+
+    if (!lastNumber.includes('.') || lastNumber === '') {
+        display.value += '.';
+    }
+});
 operatorKeys.forEach(key => {
     key.addEventListener('click', () => {
-        let currentText = display.textContent.trim();
+        let currentText = display.value.trim();
         const tokens = currentText.split(' ');
         console.log(tokens);
         const newOperator = key.textContent; //assign the current clicked operator to a variable
@@ -70,32 +85,48 @@ operatorKeys.forEach(key => {
 
         if (isLastTokenOperator) {
             tokens[tokens.length - 1] = newOperator; // replace the last operator with the newly clicked one
-            display.textContent = tokens.join(' ') + ' '; // Join the tokens back into a string
+            display.value = tokens.join(' ') + ' '; // Join the tokens back into a string
         } else {
-            display.textContent = currentText + ' ' + newOperator + ' '; // Append the new operator to the current text
+            display.value = currentText + ' ' + newOperator + ' '; // Append the new operator to the current text
         }
     });
 });
 
 
 clearButton.addEventListener('click', () => {
-    display.textContent = '0';
+    display.value = '0';
 });
 equalsButton.addEventListener('click', () => {
-    const expression = display.textContent.trim();
+    const expression = display.value.trim();
 
     try {
         const result = math.evaluate(expression); // uses math.js to evaluate safely
-        display.textContent = result.toString();
+        if (typeof result === 'number' && !Number.isInteger(result)) {
+            display.value = result.toFixed(2); // limits to 2 decimal places
+        } else {
+            display.value = result.toString(); // show whole number as-is
+        }
     } catch (e) {
-        display.textContent = 'Error';
+        display.value = 'Error';
     }
 });
 backButton.addEventListener('click', () => {
-    display.textContent = display.textContent.slice(0, -1); //remove the last character
+    display.value = display.value.slice(0, -1); //remove the last character
 
     // If the display is empty after backspace, set it to '0'
-    if (display.textContent === '') {
-        display.textContent = '0';
+    if (display.value === '') {
+        display.value = '0';
+    }
+});
+
+darkModeButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const icon = darkModeButton.querySelector('i');
+    if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-toggle-off');
+        icon.classList.add('fa-toggle-on');
+    } else {
+        icon.classList.remove('fa-toggle-on');
+        icon.classList.add('fa-toggle-off');
     }
 });
