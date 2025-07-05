@@ -7,6 +7,8 @@ const backButton = document.querySelector('#backspace-key');
 const decimalKey = document.querySelector('.decimal-key');
 const darkModeButton = document.querySelector('#dark-mode-btn');
 
+let isResultDisplayed = false;
+
 // function operate(operator, a, b) {
 //     switch (operator) {
 //         case '+':
@@ -50,14 +52,32 @@ const darkModeButton = document.querySelector('#dark-mode-btn');
 
 numberKeys.forEach(key => {
     key.addEventListener('click', () => {
-        display.value = display.value === '0' ? key.textContent : display.value + key.textContent;
-        if (display.value.length > 10) {
-            display.value = display.value.slice(0, 10);
+        if (isResultDisplayed) {
+            display.value = ''; // Clear display if a result was previously shown
+            isResultDisplayed = false; // Reset the flag
         }
-        console.log(key.textContent);
+        if (display.value === '0' && key.textContent !== '.') {
+            display.value = ''; // Clear display if it is '0' and a number key is pressed
+        }
+        if (display.value.length >= 20) {
+            return; // Prevent further input if display is already at max length
+        }
+        display.value = display.value === '0' ? key.textContent : display.value + key.textContent;
+
     });
 });
 decimalKey.addEventListener('click', () => {
+    if (isResultDisplayed) {
+        display.value = ''; // Clear display if a result was previously shown
+        isResultDisplayed = false; // Reset the flag
+    }
+    if (display.value === '') {
+        display.value = '0'; // If display is empty, start with '0'
+    }
+    if (display.value === '0') {
+        display.value = '0.'; // If display is '0', replace it with '0.'
+        return;
+    }
     const currentText = display.value.trim();
     const tokens = currentText.split(/[\s\+\-\*\/\%\^]+/); // Split by operators
     const lastNumber = tokens[tokens.length - 1];
@@ -97,6 +117,8 @@ clearButton.addEventListener('click', () => {
     display.value = '0';
 });
 equalsButton.addEventListener('click', () => {
+    isResultDisplayed = true;
+    // Use math.js to evaluate the expression safely    
     const expression = display.value.trim();
 
     try {
@@ -125,8 +147,10 @@ darkModeButton.addEventListener('click', () => {
     if (document.body.classList.contains('dark-mode')) {
         icon.classList.remove('fa-toggle-off');
         icon.classList.add('fa-toggle-on');
+        darkModeButton.style.color = '#eee'; // Dark mode background color
     } else {
         icon.classList.remove('fa-toggle-on');
         icon.classList.add('fa-toggle-off');
+        darkModeButton.style.color = '#333';
     }
 });
