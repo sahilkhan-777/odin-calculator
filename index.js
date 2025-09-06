@@ -49,9 +49,11 @@ let isResultDisplayed = false;
 //     return Math.pow(a, b);
 // }
 
+let clickSound = new Audio('sounds/calculatorclick.wav');
 
 numberKeys.forEach(key => {
     key.addEventListener('click', () => {
+        clickSound.play();
         if (isResultDisplayed) {
             display.value = ''; // Clear display if a result was previously shown
             isResultDisplayed = false; // Reset the flag
@@ -67,6 +69,7 @@ numberKeys.forEach(key => {
     });
 });
 decimalKey.addEventListener('click', () => {
+    clickSound.play();
     if (isResultDisplayed) {
         display.value = ''; // Clear display if a result was previously shown
         isResultDisplayed = false; // Reset the flag
@@ -92,6 +95,7 @@ decimalKey.addEventListener('click', () => {
 });
 operatorKeys.forEach(key => {
     key.addEventListener('click', () => {
+        clickSound.play();
         let currentText = display.value.trim();
         const tokens = currentText.split(' ');
         console.log(tokens);
@@ -114,11 +118,13 @@ operatorKeys.forEach(key => {
 
 
 clearButton.addEventListener('click', () => {
+    clickSound.play();
     display.value = '0';
 });
 equalsButton.addEventListener('click', () => {
+    clickSound.play();
     isResultDisplayed = true;
-    // Use math.js to evaluate the expression safely    
+  
     const expression = display.value.trim();
 
     try {
@@ -133,6 +139,7 @@ equalsButton.addEventListener('click', () => {
     }
 });
 backButton.addEventListener('click', () => {
+    clickSound.play();
     display.value = display.value.slice(0, -1); //remove the last character
 
     // If the display is empty after backspace, set it to '0'
